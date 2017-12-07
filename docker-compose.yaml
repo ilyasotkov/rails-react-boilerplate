@@ -10,9 +10,12 @@ services:
       & bundle exec guard -i  \
       & ./bin/webpack-dev-server"
     volumes:
-      - .:/code
-    working_dir: /code
+      - .:/app
+    working_dir: /app
     environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - WEBPACKER_DEV_SERVER_HOT=true
     ports:
@@ -24,3 +27,6 @@ services:
 
   db:
     image: postgres:10.0-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
