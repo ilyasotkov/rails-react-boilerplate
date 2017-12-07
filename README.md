@@ -1,24 +1,25 @@
-# README
+# A hello-world Rails 5.1 app with React
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a dockerized Ruby on Rails 5.1 with React enabled.
 
-Things you may want to cover:
+## Development
 
-* Ruby version
+```sh
+docker-compose up
+```
 
-* System dependencies
+If you make any changes to the Gemfile, then run `docker-compose build` after to install the gems.
 
-* Configuration
+React components will hot-reload as expected, and normal `.erb` Rails views will be auto-reloaded on change using `guard-livereload` gem.
 
-* Database creation
+## Production
 
-* Database initialization
+```yaml
+image: ilyasotkov/hello-react-rails:latest
+```
 
-* How to run the test suite
+The Dockerfile can be used in production. The compressed size of the image is 153 MB.
 
-* Services (job queues, cache servers, search engines, etc.)
+I'm currently actively developing solutions for automated deployment using Docker Swarm and Kubernetes.
 
-* Deployment instructions
-
-* ...
+The Dockerfile can be optimized for smaller size, but I chose to use 1 Dockerfile for simplicity here.
