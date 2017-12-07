@@ -1,12 +1,12 @@
 FROM ruby:2.4.2-alpine
 
-ENV INSTALL_PATH /site
+ENV INSTALL_PATH /app
 RUN mkdir -p $INSTALL_PATH
 WORKDIR $INSTALL_PATH
 
 COPY Gemfile Gemfile.lock ./
 
-RUN apk add --no-cache --update --upgrade --virtual .build-deps \
+RUN apk add --no-cache --update --upgrade \
         build-base \
         linux-headers \
         zlib-dev \
@@ -29,3 +29,4 @@ RUN apk add --no-cache --update --upgrade --virtual .build-deps \
         && bundle install
 
 COPY rails-gen-react-app /bin/rails-gen-react-app.sh
+COPY . .
