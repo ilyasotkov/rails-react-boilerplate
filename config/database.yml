@@ -15,6 +15,6 @@ test:
   database: db_test
 
 production:
-  host: <%= ENV["POSTGRES_HOST"] %>
   <<: *default
   database: db_production
+  host: <%= ENV["POSTGRES_HOST"] %>
