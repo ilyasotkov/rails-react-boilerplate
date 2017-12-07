@@ -24,8 +24,7 @@ services:
       - "3035:3035"
       - "35729:35729"
     depends_on:
-      - db
-
+      - db    
   db:
     image: postgres:10.0-alpine
     environment:
