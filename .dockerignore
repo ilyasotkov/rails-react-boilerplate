@@ -1,0 +1,15 @@
+**/.DS_Store
+
+.git
+.gitignore
+
+.dockerignore
+Dockerfile
+docker-compose.yaml
+
+.byebug_history
+.bundle
+log/*
+tmp/cache
+
+README.md
