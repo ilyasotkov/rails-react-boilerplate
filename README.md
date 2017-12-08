@@ -1,6 +1,6 @@
 # A hello-world Rails 5.1 app with React
 
-This is a dockerized Ruby on Rails 5.1 with React enabled.
+This is a dockerized Ruby on Rails 5.1 app with React enabled.
 
 ## Development
 
