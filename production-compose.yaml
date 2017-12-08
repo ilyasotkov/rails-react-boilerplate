@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+  app:
+    image: ilyasotkov/hello-react-rails:latest
+    command: bash -c "rails db:setup db:migrate && bundle exec puma -C config/puma.rb"
+    #volumes:
+      #- .:/app
+    working_dir: /app
+    environment:
+      - RAILS_ENV=production
+      - RAILS_SERVE_STATIC_FILES=yes
+      - SECRET_KEY_BASE=5056e7ea530c3d8815512fcd37a30a98befeb6c2645230b2b0433ae772ca05240865feb95795cabb91ea6505c90681303f7bdea0a37d6f0168cd66615aef6da8
+      - POSTGRES_HOST=db
+      - RAILS_LOG_TO_STDOUT=1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: postgres:10.0-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

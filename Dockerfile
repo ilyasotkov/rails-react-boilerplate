@@ -30,3 +30,5 @@ RUN apk add --no-cache --update --upgrade \
 
 COPY rails-gen-react-app /bin/rails-gen-react-app.sh
 COPY . .
+ENV RAILS_ENV=production
+RUN bundle exec rake assets:precompile
