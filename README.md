@@ -15,7 +15,7 @@ React components will hot-reload as expected, and normal `.erb` Rails views will
 ## Production
 
 ```yaml
-image: ilyasotkov/hello-react-rails:latest
+image: ilyasotkov/rails-react-boilerplate:latest
 ```
 
 The Dockerfile can be both used in production and in development.

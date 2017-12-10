@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   app:
-    image: ilyasotkov/hello-react-rails:latest
+    image: ilyasotkov/rails-react-boilerplate:latest
     build: .
     command: |
       /bin/bash -c \

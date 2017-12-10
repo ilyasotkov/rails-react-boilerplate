@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   app:
-    image: ilyasotkov/hello-react-rails:latest
+    image: ilyasotkov/rails-react-boilerplate:latest
     command: bash -c "rails db:setup db:migrate && bundle exec puma -C config/puma.rb"
     working_dir: /app
     environment:
