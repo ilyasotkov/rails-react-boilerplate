@@ -18,6 +18,8 @@ React components will hot-reload as expected, and normal `.erb` Rails views will
 image: ilyasotkov/hello-react-rails:latest
 ```
 
-The Dockerfile can be used in production and in development. The Dockerfile can be optimized for smaller size, but I chose to use 1 Dockerfile for simplicity here.
+The Dockerfile can be both used in production and in development.
+
+The image is 214 MB compressed. The Dockerfile can be optimized for smaller size in production, but I chose to use 1 Dockerfile for simplicity here.
 
 I'm actively developing solutions for automated deployment using Docker Swarm and Kubernetes.
