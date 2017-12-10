@@ -21,7 +21,7 @@ services:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - WEBPACKER_DEV_SERVER_HOT=true
     ports:
-      - "3000:3001"
+      - "3003:3001"
       - "3035:3035"
       - "35729:35729"
     depends_on:
