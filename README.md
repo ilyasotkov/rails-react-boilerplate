@@ -5,12 +5,14 @@ This is a dockerized Ruby on Rails 5.1 app with React enabled.
 ## Development
 
 ```sh
+git clone https://github.com/ilyasotkov/rails-react-boilerplate && cd rails-react-boilerplate
+docker compose run app npm install
 docker-compose up
 ```
 
 If you make any changes to the Gemfile, then run `docker-compose build` after to install the gems.
 
-React components will hot-reload as expected, and normal `.erb` Rails views will auto-reload using `guard-livereload` gem.
+React components will hot-reload as expected, and normal `.erb` Rails views will auto-reload using `guard-livereload` gem. For some reason initial setup is painfully slow (40 seconds before initial load), but fortunately after that hot-reloading is very fast.
 
 ## Production
 
