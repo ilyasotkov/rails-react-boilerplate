@@ -6,7 +6,7 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  config.web_console.whitelisted_ips = '172.22.0.1'
+  config.web_console.whitelisted_ips = '172.16.0.0/12'
 
   # Do not eager load code on boot.
   config.eager_load = false
