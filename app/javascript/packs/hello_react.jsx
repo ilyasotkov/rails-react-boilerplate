@@ -9,7 +9,7 @@ import GlobalStyle from '../src/global.css'
 import Style from '../src/hello_react.css'
 
 const Hello = props => (
-  <div onClick={() => console.log(Date.now())} className={Style.graf}>Hello {props.name}! <span className={GlobalStyle.paragraph}>(From Hello ReactComponent!)</span></div>
+  <div onClick={() => console.log(Date.now())} className={Style.graf}>Hello {props.name}!</div>
 )
 
 Hello.defaultProps = {
@@ -22,7 +22,7 @@ Hello.propTypes = {
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="New Application v1.0.2-rc.n" />,
-    document.body.appendChild(document.createElement('div')),
+    <Hello name="from a React component" />,
+    document.getElementById('react-component'),
   )
 })

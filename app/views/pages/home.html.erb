@@ -1,3 +1,13 @@
-<h1>Pages#home (from erb)</h1>
-
-<%= javascript_pack_tag 'hello_react' %>
+<div class="app">
+  <h1>
+    <a href="/">rails-react-boilerplate</a>
+    <p>App version: <%= @app_version %></p>
+  </h1>
+  <h2>Pages#home</h2>
+  <p>
+    <a href="https://github.com/ilyasotkov/rails-react-boilerplate">github.com/ilyasotkov/rails-react-boilerplate</a>
+  </p>
+  <div id="react-component">
+    <%= javascript_pack_tag 'hello_react' %>
+  </div>
+</div>
