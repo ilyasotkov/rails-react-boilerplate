@@ -3,8 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 body {
-    background-color: lighten(red, 40%);
+    background-color: lighten(green, 50%);
     font-size: 18px;
     width: 85%;
     margin: 0 auto !important;
+}
+
+.version {
+    color: darken(red, 15%);
 }
