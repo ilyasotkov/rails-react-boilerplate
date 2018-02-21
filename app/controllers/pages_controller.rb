@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def home
-    @app_version = "1.0.6"
+    @app_version = "1.1.0"
   end
 end
