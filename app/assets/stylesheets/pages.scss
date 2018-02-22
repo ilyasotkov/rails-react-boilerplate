@@ -3,12 +3,17 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 body {
-    background-color: lighten(teal, 30%);
+    background-color: lighten(navy, 40%);
+    color: white;
     font-size: 18px;
     width: 85%;
     margin: 0 auto !important;
 }
 
+a {
+    color: white !important;
+}
+
 .version {
-    color: darken(blue, 10%);
+    color: darken(yellow, 0%);
 }
