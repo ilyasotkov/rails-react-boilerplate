@@ -5,8 +5,8 @@ ingress:
     kubernetes.io/ingress.class: "nginx"
     kubernetes.io/tls-acme: "true"
   hosts:
-    - production.swarm.pw
+    - production.rails.swarm.pw
   tls:
-    - secretName: production.swarm.pw-tls
+    - secretName: production.rails.swarm.pw-tls
       hosts:
-        - production.swarm.pw
+        - production.rails.swarm.pw
