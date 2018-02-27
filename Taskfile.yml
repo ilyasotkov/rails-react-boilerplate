@@ -1,0 +1,33 @@
+promote-to-production:
+  cmds:
+    - |
+      fly --target ci \
+        trigger-job \
+        --job rails-react-boilerplate/merge-master-to-production \
+        --watch
+
+bump-patch:
+  deps:
+    - task: version-bump
+      vars:
+        type: patch
+
+bump-minor:
+  deps:
+    - task: version-bump
+      vars:
+        type: minor
+
+bump-major:
+  deps:
+    - task: version-bump
+      vars:
+        type: major
+
+version-bump:
+  cmds:
+    - |
+      fly --target ci \
+          trigger-job \
+          --job rails-react-boilerplate/{{.type}} \
+          --watch
