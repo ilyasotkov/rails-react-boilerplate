@@ -1,0 +1,389 @@
+# Pipeline copied from:
+# https://github.com/ilyasotkov/concourse-pipelines/blob/master/pipelines/gitlab-flow-semver.yml
+
+groups:
+- name: master
+  jobs:
+  - test-master
+  - integrate-master
+  - version-master
+  - tag-master
+  - build-master
+  - release-master
+
+- name: production
+  jobs:
+  - merge-master-to-production
+  - version-production
+  - tag-production
+  - build-production
+  - release-production
+  - start-next-rc
+
+- name: pull-request
+  jobs:
+  - test-pr
+
+- name: bump-version
+  jobs:
+  - patch
+  - minor
+  - major
+  - rc
+
+resource_types:
+- name: pull-request
+  type: docker-image
+  source:
+    repository: jtarchie/pr
+
+- name: helm
+  type: docker-image
+  source:
+    repository: ilyasotkov/concourse-helm-resource
+    tag: 1.1.1
+
+resources:
+- name: pull-request
+  type: pull-request
+  source:
+    repo: ((git-repo.name))
+    access_token: ((git-repo.access-token))
+    private_key: ((git-repo.private-key))
+    every: true
+
+- name: concource-pipelines-repo
+  type: git
+  source:
+    uri: https://github.com/ilyasotkov/concourse-pipelines.git
+    branch: master
+
+- name: repo-master
+  type: git
+  source:
+    uri: ((git-repo.uri))
+    private_key: ((git-repo.private-key))
+    branch: master
+
+- name: repo-production
+  type: git
+  source:
+    uri: ((git-repo.uri))
+    private_key: ((git-repo.private-key))
+    branch: production
+
+- name: rc-version
+  type: semver
+  source:
+    driver: git
+    uri: ((git-repo.uri))
+    private_key: ((git-repo.private-key))
+    branch: rc-version
+    file: version
+
+- name: final-version
+  type: semver
+  source:
+    driver: git
+    uri: ((git-repo.uri))
+    private_key: ((git-repo.private-key))
+    branch: final-version
+    file: version
+
+- name: docker-image
+  type: docker-image
+  source:
+    repository: ((docker-registry.uri))
+    username: ((docker-registry.username))
+    password: ((docker-registry.password))
+
+- name: helm-release-master
+  type: helm
+  source:
+    gcloud_auth: ((gcloud-master.auth))
+    gcloud_project: ((gcloud-master.project))
+    gcloud_zone: ((gcloud-master.zone))
+    gcloud_cluster: ((gcloud-master.cluster))
+    ca_cert: ((helm-master.ca))
+    client_cert: ((helm-master.cert))
+    client_key: ((helm-master.key))
+    repos:
+    - name: ((chart-repo.name))
+      url: https://((chart-repo.uri))
+
+- name: helm-release-production
+  type: helm
+  source:
+    gcloud_auth: ((gcloud-production.auth))
+    gcloud_project: ((gcloud-production.project))
+    gcloud_cluster: ((gcloud-production.cluster))
+    gcloud_zone: ((gcloud-master.zone))
+    ca_cert: ((helm-production.ca))
+    client_cert: ((helm-production.cert))
+    client_key: ((helm-production.key))
+    repos:
+    - name: ((chart-repo.name))
+      url: https://((chart-repo.uri))
+
+jobs:
+# ------------------------------------------------------------------------------
+# Master branch jobs (released to staging)
+# ------------------------------------------------------------------------------
+- name: test-pr
+  plan:
+  - get: pull-request
+    version: every
+    trigger: true
+  - put: pull-request
+    params:
+      path: pull-request
+      status: pending
+  - task: test-pull-request
+    file: pull-request/ci/tasks/unit.yml
+    input_mapping:
+      repo: pull-request
+    on_success:
+      put: pull-request
+      params:
+        path: pull-request
+        status: success
+    on_failure:
+      put: pull-request
+      params:
+        path: pull-request
+        status: failure
+
+- name: test-master
+  plan:
+  - get: repo-master
+    trigger: true
+  - task: unit
+    file: repo-master/ci/tasks/unit.yml
+    input_mapping: { repo: repo-master }
+
+- name: integrate-master
+  serial: true
+  plan:
+  - aggregate:
+    - get: repo-master
+      trigger: true
+      passed: [ test-master ]
+  - task: integration-test
+    file: repo-master/ci/tasks/integration.yml
+    input_mapping: { repo: repo-master }
+
+- name: version-master
+  serial: true
+  serial_groups: [ update-version ]
+  plan:
+  - aggregate:
+    - get: repo-master
+      passed: [ integrate-master ]
+      trigger: true
+    - get: rc-version
+  - put: rc-version
+    params:
+      pre: rc
+
+- name: tag-master
+  serial: true
+  plan:
+  - aggregate:
+    - get: repo-master
+      passed: [ version-master ]
+      trigger: true
+    - get: rc-version
+      passed: [ version-master ]
+  - put: repo-master
+    params:
+      repository: repo-master
+      tag: rc-version/version
+
+- name: build-master
+  serial: true
+  plan:
+  - aggregate:
+    - get: repo-master
+      passed: [ version-master ]
+      trigger: true
+    - get: rc-version
+      passed: [ version-master ]
+  - put: docker-image
+    params:
+      build: repo-master
+      tag: rc-version/version
+      tag_as_latest: true
+      cache: ((docker-registry.cache))
+      cache_tag: ((docker-registry.cache-tag))
+
+- name: release-master
+  serial: true
+  plan:
+  - aggregate:
+    - get: concource-pipelines-repo
+    - get: repo-master
+      passed: [ build-master ]
+      trigger: true
+    - get: rc-version
+  - put: helm-release-master
+    params:
+      chart: ((chart-repo.name))/((chart-repo.chart))
+      release: repo-master/((master-release.name))
+      values: repo-master/((master-release.values))
+      replace: true
+      devel: true
+      recreate_pods: false
+      wait_until_ready: 500
+      override_values:
+      - key: image.repository
+        value: ((docker-registry.uri))
+      - key: image.tag
+        path: rc-version/version
+
+# ------------------------------------------------------------------------------
+# Production branch jobs (released to production)
+# ------------------------------------------------------------------------------
+- name: merge-master-to-production
+  serial: true
+  plan:
+  - aggregate:
+    - get: concource-pipelines-repo
+    - get: repo-master
+      # trigger: true
+      # passed: [ release-master ]
+    - get: repo-production
+  - task: merge-master-to-production
+    file: concource-pipelines-repo/tasks/merge-branch.yml
+    input_mapping:
+      pipelines: concource-pipelines-repo
+      from: repo-master
+      to: repo-production
+    output_mapping:
+      out: next-production
+    params:
+      GIT_EMAIL: concourse@ci.swarm.pw
+      GIT_NAME: concourse
+      NO_FF: true
+  - put: repo-production
+    params:
+      repository: next-production
+
+- name: version-production
+  serial: true
+  plan:
+    - aggregate:
+      - get: repo-production
+        trigger: true
+        passed: [ merge-master-to-production ]
+      - get: rc-version
+        params:
+          bump: final
+    - put: final-version
+      params:
+        file: rc-version/version
+
+- name: tag-production
+  serial: true
+  plan:
+  - aggregate:
+    - get: repo-production
+      passed: [ version-production ]
+      trigger: true
+    - get: final-version
+      passed: [ version-production ]
+  - put: repo-production
+    params:
+      repository: repo-production
+      tag: final-version/version
+
+- name: build-production
+  serial: true
+  plan:
+  - aggregate:
+    - get: repo-production
+      passed: [ version-production ]
+      trigger: true
+    - get: rc-version
+    - get: final-version
+  - put: docker-image
+    params:
+      build: repo-production
+      tag: final-version/version
+      cache: true
+      cache_tag: latest
+
+- name: release-production
+  serial: true
+  plan:
+  - aggregate:
+    - get: repo-production
+      passed: [ build-production ]
+      trigger: true
+    - get: final-version
+  - put: helm-release-production
+    params:
+      chart: ((chart-repo.name))/((chart-repo.chart))
+      release: repo-production/((production-release.name))
+      values: repo-production/((production-release.values))
+      replace: true
+      devel: true
+      recreate_pods: false
+      wait_until_ready: 500
+      override_values:
+      - key: image.tag
+        path: final-version/version
+      - key: image.repository
+        value: ((docker-registry.uri))
+
+- name: start-next-rc
+  serial: true
+  serial_groups: [ update-version ]
+  plan:
+    - get: final-version
+      passed: [ tag-production ]
+      trigger: true
+      params:
+        bump: patch
+    # This initializes rc-verison with version
+    # of the form 'x.y.z' temporalily.
+    # However, we can gurantee that tagged versions on master branch
+    # will be of the form 'x.y.z-rc.n' because version-master always
+    # bump with {pre: rc}.
+    - put: rc-version
+      params:
+        file: final-version/version
+
+# ------------------------------------------------------------------------------
+# SemVer version bumps. Must be triggered manually!
+# ------------------------------------------------------------------------------
+- name: patch
+  serial: true
+  serial_groups: [ update-version ]
+  plan:
+    - get: rc-version
+    - put: rc-version
+      params: { bump: patch }
+      passed:
+- name: minor
+  serial: true
+  serial_groups: [ update-version ]
+  plan:
+    - get: rc-version
+    - put: rc-version
+      params: { bump: minor }
+
+- name: major
+  serial: true
+  serial_groups: [ update-version ]
+  plan:
+    - get: rc-version
+    - put: rc-version
+      params: { bump: major }
+
+- name: rc
+  serial: true
+  serial_groups: [ update-version ]
+  plan:
+    - get: rc-version
+    - put: rc-version
+      params: { pre: rc }

@@ -5,8 +5,10 @@ This is a dockerized Ruby on Rails 5.1 app with React enabled.
 ## Development
 
 ```sh
-git clone https://github.com/ilyasotkov/rails-react-boilerplate && cd rails-react-boilerplate
-docker compose run app npm install
+git clone https://github.com/ilyasotkov/rails-react-boilerplate
+cd rails-react-boilerplate
+docker-compose build
+docker-compose run app npm install
 docker-compose up
 ```
 

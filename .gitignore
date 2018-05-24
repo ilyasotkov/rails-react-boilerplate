@@ -20,3 +20,6 @@
 /public/packs
 /public/packs-test
 /node_modules
+
+# CI/CD
+ci/params.yml

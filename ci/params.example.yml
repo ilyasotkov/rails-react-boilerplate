@@ -1,0 +1,168 @@
+# All secret values are invalid and shown for demonstration purposes only
+
+git-repo:
+  name: ilyasotkov/rails-react-boilerplate
+  access-token: 0565d48536e447d8851e82ff855b9d3f1160548d
+  uri: git@github.com:ilyasotkov/rails-react-boilerplate.git
+  private-key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIICXAIBAAKBgQC0Tp3p5Mox35XV1npSEEvXyTsHPg8HMJsU75Cc4SgFad28lmml
+    CJsE7Ri46/5yeSmICY67x9J4rMABBxarliuK4QOn4EUcRIcPBKZOpD2c8FFFzIWq
+    QWLo2xCf1JhJDDrGhjosnI/b30tYJyU6tE3IbWLfH07Re7yYva93PcxISQIDAQAB
+    AoGANJNwDJHAO8a8hDwkMuW5l9R/t97qtuf/cJ1ih7xH1TxHggRCDfNycH9KZDG8
+    YljeOWLAEhV0U+fbnPEaNTJ2w2uwwYfNqhfJv8MlciMGVIYNU47TmA7Fk7dxZJ/+
+    JzemjSLRXf9Xu85m7WM2qE7stixOmbSzl0bfErOQLmCMngECQQD4wL1iojSQhhCF
+    yIgcg4xzXfx+FkeO/PGzJRsGYKyuLPomgQ5DBhxjeywNIZuWkbK8t2y26VNVzJzA
+    qrL6Ch0pAkEAuY9kOi8p97ygVelb/3SEjAlQl4JJ/VB4tam3UTGzRwQCNUAq2iva
+    P05ybe1IgJx7YT9CdYHdtcDqguNAFrUWIQJAP9qCAuquYZb4cM8cGW2vRQIQSXGA
+    pvTJOnpA6K8yRHepMu8X8R6FdQfuM+S3orv9zLGtB3r3eGPQrShkTwj/mQJAUlkM
+    RbYAjeyryvSQ20E+QVcw6MvtQfmgWB5FOEcyJGXnBPLBEak8ZbPOnHIdJtZK+tE0
+    ESnc1ngSmpt3KZybgQJBAMqRN2WJ3L/Buz6Hylodnyd0J+Z9/dWvXVpWV5wQG5BS
+    a18BEhX2iY7Udt08nKtuifJRDMq4sq97jgkDsBmR+E4=
+    -----END RSA PRIVATE KEY-----
+
+docker-registry:
+  uri: gcr.io/dev-demo-apps-296e23/rails-react-boilerplate
+  username: _json_key
+  password: |
+    {
+    "type": "service_account",
+    "project_id": "XXX",
+    "private_key_id": "XXX",
+    "private_key": "XXX",
+    "client_email": "XXX",
+    "client_id": "XXX",
+    "auth_uri": "XXX",
+    "token_uri": "XXX",
+    "auth_provider_x509_cert_url": "XXX",
+    "client_x509_cert_url": "XXX"
+    }
+  cache: "false"
+  cache-tag: latest
+
+chart-repo:
+  uri: exekube.github.io/charts
+  name: exekube
+  chart: rails-app
+
+master-release:
+  name: ci/helm-release/master-release.txt
+  values: ci/helm-release/master-values.yaml
+
+production-release:
+  name: ci/helm-release/production-release.txt
+  values: ci/helm-release/production-values.yaml
+
+gcloud-master:
+  project: dev-demo-apps-296e23
+  zone: europe-west1-d
+  cluster: k8s-cluster
+  auth: |
+    {
+    "type": "service_account",
+    "project_id": "XXX",
+    "private_key_id": "XXX",
+    "private_key": "XXX",
+    "client_email": "XXX",
+    "client_id": "XXX",
+    "auth_uri": "XXX",
+    "token_uri": "XXX",
+    "auth_provider_x509_cert_url": "XXX",
+    "client_x509_cert_url": "XXX"
+    }
+
+gcloud-production:
+  project: dev-demo-apps-296e23
+  zone: europe-west1-d
+  cluster: k8s-cluster
+  auth: |
+    {
+    "type": "service_account",
+    "project_id": "XXX",
+    "private_key_id": "XXX",
+    "private_key": "XXX",
+    "client_email": "XXX",
+    "client_id": "XXX",
+    "auth_uri": "XXX",
+    "token_uri": "XXX",
+    "auth_provider_x509_cert_url": "XXX",
+    "client_x509_cert_url": "XXX"
+    }
+
+helm-master:
+  ca: |
+    -----BEGIN CERTIFICATE-----
+    MIICCjCCAWugAwIBAgIQSDXyat1+ehMvQWMBOnywWjAKBggqhkjOPQQDBDAhMQ0w
+    CwYDVQQKEwRIZWxtMRAwDgYDVQQDEwdIZWxtIENBMB4XDTE4MDUxMTE3MDkzNVoX
+    DTIxMDUxMDE3MDkzNVowITENMAsGA1UEChMESGVsbTEQMA4GA1UEAxMHSGVsbSBD
+    QTCBmzAQBgcqhkjOPQIBBgUrgQQAIwOBhgAEAfEgiV6GN6a/baDaOZFH6XXLApZN
+    p5Lctj6IXiXiyrJLG7FiGCiXTR9TCs2gMqbQtZA+D1hTQrYKi0xHnVJS8tg5AGlX
+    j5mGy/nR4zJeTVVfWBTRWi0NlaArppN/mPb73rqRoLWljijgzWh3uwNM0YxPJlLu
+    Ap/tHV7HuUEQOUHVzzffo0IwQDAOBgNVHQ8BAf8EBAMCAgQwDwYDVR0TAQH/BAUw
+    AwEB/zAdBgNVHQ4EFgQUB1SdqP4c6nkedobATSuGBcEZI+EwCgYIKoZIzj0EAwQD
+    gYwAMIGIAkIBHaNKw/ZPvxRl2m12KvKoO0ZgaGvssOpAV8ZIUBtzDXvfhvuMTNa5
+    rs3n7+mba751EWDlVo4WBnMu/CCLG+jNDXkCQgDAgoaiaEQjVCikrzDzxZolSLjd
+    8lmd6gycvIA8rNv4r7OXAiY9YBOvIdE5WbgwUDigOi3dWXOIPjFq8Pa6S3+ctw==
+    -----END CERTIFICATE-----
+  cert: |
+    -----BEGIN CERTIFICATE-----
+    MIICEzCCAXSgAwIBAgIRAMaodJ77NKT7wcBcS/tAuCgwCgYIKoZIzj0EAwQwITEN
+    MAsGA1UEChMESGVsbTEQMA4GA1UEAxMHSGVsbSBDQTAeFw0xODA1MTExNzA5MzZa
+    Fw0yMDA1MTAxNzA5MzZaMCUxDTALBgNVBAoTBEhlbG0xFDASBgNVBAMTC2hlbG0t
+    Y2xpZW50MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBCcOJ+ojDxanOwi6H3DdA
+    /h1OujcRRZngyTFGd+ZV7HESt36diiIY5XITFI9X6US/k4y3TPzeZBS/g+Gr5HKi
+    G+EBFx6lTfOj8EScPTo7IvpAmCtG3o03rq9nvPivpXHhnkrtpRzUBTMDkys84eon
+    94sNRuz1SMiIwTzSv7ANJwEhSkOjRjBEMBMGA1UdJQQMMAoGCCsGAQUFBwMCMAwG
+    A1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUB1SdqP4c6nkedobATSuGBcEZI+EwCgYI
+    KoZIzj0EAwQDgYwAMIGIAkIBBdsyC0rDFyjErBTWaS1XG+YUZtFF18CJCqStXAdJ
+    58tSgyTOnpo/enSmkihuYCylnGnrV5qCAenGRyFj4/5WHkICQgGQPwwiWfbbinRm
+    7jXmZJ41RVbXwWqTu5GjFx/i0o+vzhusITUU2CCOpB1Ks7NfvAx87nd1CziIHwCd
+    nMMIBRtAtg==
+    -----END CERTIFICATE-----
+  key: |
+    -----BEGIN EC PRIVATE KEY-----
+    MIHcAgEBBEIAspEJnJg81G/UOps7SWHmhQszDxf24+ZAhjJRGg96aX2LYhYKHn5X
+    Tm0fdU4XXVllra0vT/6oAUZl8lAT32Ss8bagBwYFK4EEACOhgYkDgYYABAEJw4n6
+    iMPFqc7CLofcN0D+HU66NxFFmeDJMUZ35lXscRK3fp2KIhjlchMUj1fpRL+TjLdM
+    /N5kFL+D4avkcqIb4QEXHqVN86PwRJw9Ojsi+kCYK0bejTeur2e8+K+lceGeSu2l
+    HNQFMwOTKzzh6if3iw1G7PVIyIjBPNK/sA0nASFKQw==
+    -----END EC PRIVATE KEY-----
+
+helm-production:
+  ca: |
+    -----BEGIN CERTIFICATE-----
+    MIICCzCCAWygAwIBAgIRAL5/cgbz/8etVpotmraJNdEwCgYIKoZIzj0EAwQwITEN
+    MAsGA1UEChMESGVsbTEQMA4GA1UEAxMHSGVsbSBDQTAeFw0xODA1MTExNDQ2NDNa
+    Fw0yMTA1MTAxNDQ2NDNaMCExDTALBgNVBAoTBEhlbG0xEDAOBgNVBAMTB0hlbG0g
+    Q0EwgZswEAYHKoZIzj0CAQYFK4EEACMDgYYABADkSTGLjBtb5qvjStwIVzPI8JUH
+    kVADRNMFbunwDDaKATUaybCHMn7GYuM2ZnyBD0/7AZZa3dYGMkxcEUFEXeK/zwAg
+    19dHK2SnUSjd3fRzRLdMlhdhYOM/0GgSo4ijSm177CzY2YAls6jSNL0W/Xnji9mF
+    qyCpkGZmNUmhcTezV11BpaNCMEAwDgYDVR0PAQH/BAQDAgIEMA8GA1UdEwEB/wQF
+    MAMBAf8wHQYDVR0OBBYEFEpBVPly2dpwRkxPIZ3LAM3JD+yPMAoGCCqGSM49BAME
+    A4GMADCBiAJCAdZG3z5K/tBrzwb36hMWDphQ6nDOK6o1h6PaTdz5PV1uT5RI6sY7
+    /FC/ZfdWhCBC6TZGlW4FDL1ZTpd07spQjdGOAkIA/0WZMeUfg0n5jmQhHroYw8GA
+    T/4EGhpYYD9GIwdqVDqNAMFLBKcDAAGioK5sjRa25aJj4Mv6Yn7nJOVfi4MC9Ag=
+    -----END CERTIFICATE-----
+  cert: |
+    -----BEGIN CERTIFICATE-----
+    MIICEjCCAXOgAwIBAgIQFukhThMHlA1pwiJ7+88cGDAKBggqhkjOPQQDBDAhMQ0w
+    CwYDVQQKEwRIZWxtMRAwDgYDVQQDEwdIZWxtIENBMB4XDTE4MDUxMTE0NDY0M1oX
+    DTIwMDUxMDE0NDY0M1owJTENMAsGA1UEChMESGVsbTEUMBIGA1UEAxMLaGVsbS1j
+    bGllbnQwgZswEAYHKoZIzj0CAQYFK4EEACMDgYYABAA2IVNE+ufc9JwP1y7hTyhH
+    53TgEvO4z8q6/yRUF45t8Wxu23TRG6ma/xewnHUexJMIdEHn53rkj/PMyqs9lDIG
+    2QE4mGyxcVMst7idY8tE6slmZDzHGzxYrReIP1Et0b8o7yz0csozXW7PPY9sRAzA
+    9DerjhniVPLFa3Nz6uRC2Url3KNGMEQwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDAYD
+    VR0TAQH/BAIwADAfBgNVHSMEGDAWgBRKQVT5ctnacEZMTyGdywDNyQ/sjzAKBggq
+    hkjOPQQDBAOBjAAwgYgCQgFXrKVefX3TFA0MV64pIdG3hTEGJqYA7LUdubw/vBbs
+    SU3HcKb6GG8NzeYyATj6s8lTi6QV7pb1Dt8v9uc1ya3KZQJCAWR/vXtOiPFDpnly
+    /f2V9VL+vvdob5iM6NOpNUI55x0JNlc980NSoFS22jiIgUbjDhZNpdVUDweQS7nB
+    9Ao9DR6O
+    -----END CERTIFICATE-----
+  key: |
+    -----BEGIN EC PRIVATE KEY-----
+    MIHcAgEBBEIBGDKBbZWtTUGTxgKUOXKz/pdWDa39kG3XUSUMJlhdcJnqiN90NsiP
+    eyc8gvcYpA72V96YXwHOnQuVSY3lHtasHjigBwYFK4EEACOhgYkDgYYABAA2IVNE
+    +ufc9JwP1y7hTyhH53TgEvO4z8q6/yRUF45t8Wxu23TRG6ma/xewnHUexJMIdEHn
+    53rkj/PMyqs9lDIG2QE4mGyxcVMst7idY8tE6slmZDzHGzxYrReIP1Et0b8o7yz0
+    csozXW7PPY9sRAzA9DerjhniVPLFa3Nz6uRC2Url3A==
+    -----END EC PRIVATE KEY-----
